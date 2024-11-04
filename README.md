@@ -1,2 +1,4 @@
-# cookbook
-Meal management and recommendations 
+# CookBook
+
+Meal planner and Shopping List generator
+
