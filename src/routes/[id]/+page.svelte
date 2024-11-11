@@ -83,7 +83,7 @@
   article {
     max-width: 60ch;
     margin: calc(var(--unit-2) * 2) auto 0;
-    padding: 0 var(--unit-1);
+    padding: 0 var(--unit-1) var(--unit-3);
   }
 
   .mise-en-place {
