@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
+  import { labelize } from "../utils";
   import SidebarItem from "./SidebarItem.svelte";
 
   import { onMount } from "svelte";
@@ -10,18 +11,13 @@
     recipes = data;
   });
 
-  function labelize(name: string) {
-    return name
-      .replace(/(-)/, " ")
-      .replace(/\w\S*/g, (text) => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase());
-  }
-
   function isSelected(id: string) {
     return $page.url.pathname === `/${id}`;
   }
 </script>
 
 <div class="nav-section">
+  <!-- App Icon here -->
   <h4>Recipes</h4>
   {#each recipes as recipe}
     <SidebarItem href="/{recipe}" name={labelize(recipe)} isActive={isSelected(recipe)} />
