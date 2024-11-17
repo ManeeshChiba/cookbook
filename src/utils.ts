@@ -12,7 +12,7 @@ export interface TextStep {
 export interface IngredientStep {
   type: "ingredient";
   name: string;
-  quantity: number;
+  quantity: number | string;
   units: string;
 }
 
@@ -49,11 +49,12 @@ export function isTimerStep(step: Step): step is TimerStep {
 
 export function stepsToText(steps: Array<Step[]>): string[] {
   return steps.map((stepBlocks: Step[]) => {
-    return stepBlocks
+    let text = stepBlocks
       .map((block) => {
         switch (block.type) {
-          case "text":
+          case "text": {
             return block.value;
+          }
           case "ingredient":
           case "cookware":
             return block.name;
@@ -64,5 +65,12 @@ export function stepsToText(steps: Array<Step[]>): string[] {
         }
       })
       .join(" ");
+
+    text = text.replace(/( ,)/gm, ",");
+    if (text.slice(-2, -1) === " ") {
+      text = text.slice(0, -2) + ".";
+    }
+
+    return text;
   });
 }

@@ -82,6 +82,7 @@
     }
 
     & .icon {
+      flex-shrink: 0;
       width: var(--unit-2);
       height: var(--unit-2);
       opacity: 0.5;
@@ -105,6 +106,7 @@
       line-height: 1;
       color: var(--gray-1);
       gap: calc(var(--unit-1) / 6);
+      white-space: nowrap;
       & .pill-icon {
         display: block;
         width: calc(var(--unit-1) - 4px);

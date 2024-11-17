@@ -85,7 +85,7 @@ const processRecipes = (recipeArray: any): any => {
         }
       };
     },
-    {} as RecipeResponse
+    {}
   );
 
   return response;
