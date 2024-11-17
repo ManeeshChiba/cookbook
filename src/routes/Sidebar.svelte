@@ -38,7 +38,7 @@
   .nav-section {
     display: flex;
     flex-direction: column;
-    padding: var(--unit-2) var(--unit-1);
+    padding: calc(var(--unit-1) / 2) var(--unit-1);
     &:first-of-type {
       padding-block-start: calc(var(--unit-2) * 2);
     }
