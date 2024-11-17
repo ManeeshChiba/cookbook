@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 export const ROOT = path.resolve(__dirname, "../");
 const LOOKUP_DIR = path.join(ROOT, "lookup");
 const RECIPES_PATH = path.join(ROOT, "recipes");
-const LOOKUP_PATH = path.join(LOOKUP_DIR, "lookup.json");
+const ROUTES_PATH = path.join(ROOT, "src/routes");
 
 const ensureDir = () => {
   fse.emptyDirSync(LOOKUP_DIR);
@@ -34,20 +34,20 @@ const readReciepes = async () => {
   return await Promise.all(
     paths.map(async (filename) => {
       const content = await getFileContent(filename);
-      const data: Cook.ParseResult = new Cook.Parser().parse(content);
+      const data: Cook.ParseResult = new Cook.Parser().parse(content ?? "");
       return { title: filename, data };
     })
   );
 };
 
-interface LookupObjectData {
+export interface LookupObjectData {
   title: string;
   ingredients: string[];
   totalTimeMinutes: number;
   cookwares: string[];
 }
 
-type LookupObject = Record<string, LookupObjectData>;
+export type LookupObject = Record<string, LookupObjectData>;
 
 const processRecipes = (recipeArray: { title: string; data: Cook.ParseResult }[]): LookupObject => {
   const collectTimes = (steps: Cook.Step[]) => {
@@ -72,7 +72,7 @@ const processRecipes = (recipeArray: { title: string; data: Cook.ParseResult }[]
   };
 
   return recipeArray.reduce((acc, cur) => {
-    const title = cur.title.replace(".cook", "");
+    const title = cur.title.replace(".cook", "").toLocaleLowerCase();
     const data: LookupObjectData = {
       title,
       ingredients: cur.data?.ingredients.map((ing) => ing.name) ?? [],
@@ -90,7 +90,17 @@ async function build() {
   ensureDir();
   const recipes = await readReciepes();
   const processed = processRecipes(recipes);
-  fse.writeFileSync(LOOKUP_PATH, JSON.stringify(processed, null, 4));
+  // For lookup
+  fse.writeFileSync(path.join(LOOKUP_DIR, "lookup.json"), JSON.stringify(processed, null, 4));
+  const inject = `
+  <script>
+    import { onMount } from 'svelte';
+
+    onMount(() => {
+      window.lookup = ${JSON.stringify(processed)}
+    });
+  </script>`;
+  fse.writeFileSync(path.join(ROUTES_PATH, "Lookup.svelte"), inject);
 }
 
 build();

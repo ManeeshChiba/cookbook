@@ -1,14 +1,17 @@
 <script lang="ts">
   import { page } from "$app/stores";
+  import type { LookupObject } from "../types/lookupTypes";
   import { labelize } from "../utils";
   import SidebarItem from "./SidebarItem.svelte";
 
   import { onMount } from "svelte";
   let data;
   let recipes: string[] = [];
+  let lookup: LookupObject = {};
   onMount(async () => {
     data = await fetch("/recipe").then((x) => x.json());
     recipes = data;
+    lookup = window.lookup as LookupObject;
   });
 
   function isSelected(id: string) {
@@ -20,8 +23,12 @@
   <!-- App Icon here -->
   <h4>Recipes</h4>
   {#each recipes as recipe}
-    <!-- Add time here -->
-    <SidebarItem href="/{recipe}" name={labelize(recipe)} isActive={isSelected(recipe)} />
+    <SidebarItem
+      href="/{recipe}"
+      name={labelize(recipe)}
+      isActive={isSelected(recipe)}
+      time={lookup[recipe]?.totalTimeMinutes}
+    />
   {/each}
 </div>
 
