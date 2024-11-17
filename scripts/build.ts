@@ -73,15 +73,22 @@ const processRecipes = (recipeArray: { title: string; data: Cook.ParseResult }[]
 
   return recipeArray.reduce((acc, cur) => {
     const title = cur.title.replace(".cook", "").toLocaleLowerCase();
+
+    const course = cur.data.metadata?.["Course"] ?? "Other";
+
     const data: LookupObjectData = {
       title,
       ingredients: cur.data?.ingredients.map((ing) => ing.name) ?? [],
       cookwares: cur.data?.cookwares.map((cw) => cw.name) ?? [],
       totalTimeMinutes: collectTimes(cur.data.steps)
     };
+
     return {
       ...acc,
-      [title]: data
+      [course.toLowerCase()]: {
+        ...acc[course.toLowerCase()],
+        [title]: data
+      }
     };
   }, {});
 };

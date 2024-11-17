@@ -16,7 +16,6 @@ async function getFileContent(filename: string) {
 
 export async function GET({ url }) {
   const recipeID = url.pathname.replace("/recipe/", "");
-  console.log(recipeID);
   const fileContent = await getFileContent(recipeID);
   if (!fileContent) {
     error(404, {

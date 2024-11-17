@@ -1,17 +1,16 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import type { LookupObject } from "../types/lookupTypes";
+  import type { RecipeResponse } from "../types/types";
   import { labelize } from "../utils";
   import SidebarItem from "./SidebarItem.svelte";
 
   import { onMount } from "svelte";
   let data;
-  let recipes: string[] = [];
-  let lookup: LookupObject = {};
+  let grouppedRecipes: RecipeResponse = {};
+
   onMount(async () => {
     data = await fetch("/recipe").then((x) => x.json());
-    recipes = data;
-    lookup = window.lookup as LookupObject;
+    grouppedRecipes = data;
   });
 
   function isSelected(id: string) {
@@ -19,18 +18,21 @@
   }
 </script>
 
-<div class="nav-section">
-  <!-- App Icon here -->
-  <h4>Recipes</h4>
-  {#each recipes as recipe}
-    <SidebarItem
-      href="/{recipe}"
-      name={labelize(recipe)}
-      isActive={isSelected(recipe)}
-      time={lookup[recipe]?.totalTimeMinutes}
-    />
-  {/each}
-</div>
+{#each Object.keys(grouppedRecipes) as course}
+  <div class="nav-section">
+    <h4>{course}</h4>
+    {#if grouppedRecipes[course]}
+      {#each Object.keys(grouppedRecipes[course]) as recipe}
+        <SidebarItem
+          href="/{recipe}"
+          name={labelize(recipe)}
+          isActive={isSelected(recipe)}
+          time={grouppedRecipes[course][recipe].totalTimeMinutes}
+        />
+      {/each}
+    {/if}
+  </div>
+{/each}
 
 <style>
   .nav-section {

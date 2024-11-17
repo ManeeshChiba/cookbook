@@ -2,13 +2,11 @@
   // import Counter from "./Counter.svelte";
   // import welcome from "$lib/images/svelte-welcome.webp";
   // import welcomeFallback from "$lib/images/svelte-welcome.png";
-  import Lookup from "./Lookup.svelte";
 </script>
 
 <svelte:head>
   <title>Home</title>
   <meta name="description" content="Reciepe Book" />
-  <Lookup />
 </svelte:head>
 
 <section>

@@ -6,3 +6,9 @@ export interface LookupObjectData {
 }
 
 export type LookupObject = Record<string, LookupObjectData>;
+
+export interface RecipeResponse {
+  [key: string]: {
+    [key: string]: LookupObject;
+  };
+}
