@@ -20,6 +20,7 @@
   <!-- App Icon here -->
   <h4>Recipes</h4>
   {#each recipes as recipe}
+    <!-- Add time here -->
     <SidebarItem href="/{recipe}" name={labelize(recipe)} isActive={isSelected(recipe)} />
   {/each}
 </div>

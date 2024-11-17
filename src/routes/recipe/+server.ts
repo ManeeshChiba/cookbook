@@ -9,7 +9,6 @@ async function readDirctory() {
 }
 
 export async function GET({ url }) {
-  console.log(url);
   const allRecipes = await readDirctory().then((files) =>
     files.filter((file) => file.includes(".cook")).map((file) => file.replace(".cook", ""))
   );

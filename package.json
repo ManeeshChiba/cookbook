@@ -8,10 +8,10 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "make": "tsx ./src/index.ts",
-    "dev": "vite dev",
-    "build": "vite build",
-    "preview": "vite preview",
+    "make-lookup": "tsx ./scripts/build.ts",
+    "dev": "yarn make-lookup & vite dev",
+    "build": "yarn make-lookup & vite build",
+    "preview": "yarn make-lookup & vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "format": "prettier --write .",
@@ -44,6 +44,7 @@
     "@types/node": "^22.9.0",
     "@typescript-eslint/parser": "^8.12.2",
     "eslint": "^9.14.0",
+    "fs-extra": "^11.2.0",
     "prettier": "^3.3.3",
     "tsx": "^4.19.2"
   }

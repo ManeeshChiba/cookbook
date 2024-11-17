@@ -1,5 +1,5 @@
 <script>
-  let { href = "#", name = "", isActive = false } = $props();
+  let { href = "#", name = "", isActive = false, time = undefined } = $props();
 </script>
 
 <a {href} data-active={isActive} aria-current={isActive ? "page" : undefined}>
@@ -21,6 +21,30 @@
     </svg></span
   >
   <span class="text">{name}</span>
+  {#if time}
+    <span class="pill">
+      <svg
+        class="pill-icon"
+        width="24px"
+        height="24px"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g id="Calendar / Clock">
+          <path
+            id="Vector"
+            d="M12 7V12H17M12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21Z"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </g>
+      </svg>
+      {time}</span
+    >
+  {/if}
 </a>
 
 <style>
@@ -33,6 +57,7 @@
     display: flex;
     gap: calc(var(--unit-1) / 4);
     flex: var(--unit-1) auto;
+    align-items: center;
 
     & span {
       display: block;
@@ -50,12 +75,35 @@
       }
     }
 
+    & .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: calc((var(--unit-1) / 5) * 3);
+      height: var(--unit-1);
+      background: var(--gray-4);
+      padding: 3px 4px;
+      border-radius: 4px;
+      line-height: 1;
+      color: var(--gray-1);
+      gap: calc(var(--unit-1) / 6);
+      & .pill-icon {
+        display: block;
+        width: calc(var(--unit-1) - 4px);
+        height: auto;
+      }
+    }
+
     &[data-active="true"] {
       background: var(--gray-2);
       color: var(--text);
 
       & .icon {
         opacity: 1;
+      }
+
+      & .pill {
+        background: var(--orange);
       }
     }
   }
