@@ -39,9 +39,9 @@
     display: flex;
     flex-direction: column;
     padding: calc(var(--unit-1) / 2) var(--unit-1);
-    &:first-of-type {
+    /* &:first-of-type {
       padding-block-start: calc(var(--unit-2) * 2);
-    }
+    } */
     & h4 {
       font-size: 12px;
       letter-spacing: 0.5px;
